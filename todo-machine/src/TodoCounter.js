@@ -1,15 +1,13 @@
 import React from 'react';
 import './TodoCounter.css';
 
-// ejemplo de implementación de estilos en React
-// const estilos = {
-//     color: 'red',
-//     backgroundColor: 'yellow'
-// };
+const TodoCounter = ({ total, completed }) => {
 
-const TodoCounter = () => {
+    // Una manera distinta de obtener props
+    // const { total, completed } = props
+
     return (
-        <h2 className='TodoCounter'>Has completado 2 de 3 TODOs</h2>
+        <h2 className='TodoCounter'>Has completado {completed} de {total} TODOs</h2>
     );
 };
 
