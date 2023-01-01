@@ -1,11 +1,11 @@
 import React from 'react';
-import { CreateTodoButton } from './CreateTodoButton';
-import { TodoCounter } from './TodoCounter';
-import TodoItem from './TodoItem';
-import { TodoList } from './TodoList';
-import { TodoSearch } from './TodoSearch';
-import './CreateTodoButton.css'
-import './TodoList.css'
+import { CreateTodoButton } from '../CreateTodoButton';
+import { TodoCounter } from '../TodoCounter';
+import TodoItem from '../TodoItem';
+import { TodoList } from '../TodoList';
+import { TodoSearch } from '../TodoSearch';
+import '../CreateTodoButton/CreateTodoButton.css'
+import '../TodoList/TodoList.css'
 
 const defaultTodos = [
   { text: 'Cortar cebolla', completed: true },
@@ -35,6 +35,33 @@ function App() {
     })
   }
 
+  const completeTodo = (text) => {
+    const todoIndex = todos.findIndex(todo => todo.text === text);
+    
+    const newTodos = [...todos];
+    newTodos[todoIndex].completed = true;
+    // formaas de conocer el índice del todo completado
+    // --------------FORMA A
+    //todos[todoIndex].completed = true
+    
+    // --------------FORMA B
+    // todos[todoIndex] = {
+    //   text: todos[todoIndex].text,
+    //   completed: true
+    // };
+
+    setTodos(newTodos);
+  }
+  const deleteTodo = (text) => {
+    const todoIndex = todos.findIndex(todo => todo.text === text);
+    
+    const newTodos = [...todos];
+    //La función splice quita elementos desde un posición (arg1) la
+    //cantidad que necesitemos (arg2)
+    newTodos.splice(todoIndex, 1);
+    setTodos(newTodos);
+  }
+
   return (
     //etiqueta React.Fragment que equivale a un div
     <React.Fragment>
@@ -51,7 +78,10 @@ function App() {
           <TodoItem
             key={todo.text}
             text={todo.text}
-            completed={todo.completed} />
+            completed={todo.completed} 
+            onComplete={() => completeTodo(todo.text)}
+            onDelete = {() => deleteTodo(todo.text)}
+            />
         ))}
       </TodoList>
       <CreateTodoButton />
