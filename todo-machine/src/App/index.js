@@ -1,11 +1,5 @@
 import React from 'react';
-import { CreateTodoButton } from '../CreateTodoButton';
-import { TodoCounter } from '../TodoCounter';
-import TodoItem from '../TodoItem';
-import { TodoList } from '../TodoList';
-import { TodoSearch } from '../TodoSearch';
-import '../CreateTodoButton/CreateTodoButton.css'
-import '../TodoList/TodoList.css'
+import { AppUI } from './AppUI';
 
 const defaultTodos = [
   { text: 'Cortar cebolla', completed: true },
@@ -37,13 +31,13 @@ function App() {
 
   const completeTodo = (text) => {
     const todoIndex = todos.findIndex(todo => todo.text === text);
-    
+
     const newTodos = [...todos];
     newTodos[todoIndex].completed = true;
     // formaas de conocer el índice del todo completado
     // --------------FORMA A
     //todos[todoIndex].completed = true
-    
+
     // --------------FORMA B
     // todos[todoIndex] = {
     //   text: todos[todoIndex].text,
@@ -54,7 +48,7 @@ function App() {
   }
   const deleteTodo = (text) => {
     const todoIndex = todos.findIndex(todo => todo.text === text);
-    
+
     const newTodos = [...todos];
     //La función splice quita elementos desde un posición (arg1) la
     //cantidad que necesitemos (arg2)
@@ -63,29 +57,15 @@ function App() {
   }
 
   return (
-    //etiqueta React.Fragment que equivale a un div
-    <React.Fragment>
-      <TodoCounter 
-      total={totalTodos}
-      completed={completedTodos}
-      />
-      <TodoSearch
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-      />
-      <TodoList>
-        {searchedTodos.map(todo => (
-          <TodoItem
-            key={todo.text}
-            text={todo.text}
-            completed={todo.completed} 
-            onComplete={() => completeTodo(todo.text)}
-            onDelete = {() => deleteTodo(todo.text)}
-            />
-        ))}
-      </TodoList>
-      <CreateTodoButton />
-    </React.Fragment>
+    <AppUI
+      totalTodos={totalTodos}
+      completedTodos={completedTodos}
+      searchValue={searchValue}
+      setSearchValue={setSearchValue}
+      searchedTodos={searchedTodos}
+      completeTodo={completeTodo}
+      deleteTodo={deleteTodo}
+    />
   );
 }
 

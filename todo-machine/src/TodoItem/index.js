@@ -2,12 +2,6 @@ import React from 'react';
 import './TodoItem.css'
 
 const TodoItem = (props) => {
-    // const onComplete = () => {
-    //     alert('Aquí completaste el todo ' + props.text)
-    //}
-    // const onDelete = () => {
-    //     alert('Aquí borraste el todo ' + props.text)
-    // }
     return (
         <li className='TodoItem'>
             <span
