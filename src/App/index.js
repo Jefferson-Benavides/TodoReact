@@ -1,15 +1,26 @@
 import React from 'react';
 import { AppUI } from './AppUI';
 
-const defaultTodos = [
-  { text: 'Cortar cebolla', completed: true },
-  { text: 'Tomar el curso de React', completed: false },
-  { text: 'Llorar con la llorona', completed: true }
-]
+// const defaultTodos = [
+//   { text: 'Cortar cebolla', completed: true },
+//   { text: 'Tomar el curso de React', completed: false },
+//   { text: 'Llorar con la llorona', completed: true }
+// ]
 
 function App() {
+  const localStorageTodos = localStorage.getItem('TODOS_V1');
 
-  const [todos, setTodos] = React.useState(defaultTodos)
+  let parsedTodos;
+
+  if (!localStorageTodos) {
+    localStorage.setItem('TODOS_V1', JSON.stringify([]));
+    parsedTodos = []
+
+  } else {
+    parsedTodos = JSON.parse(localStorageTodos);
+  }
+
+  const [todos, setTodos] = React.useState(parsedTodos)
 
   const [searchValue, setSearchValue] = React.useState('');
 
@@ -29,20 +40,17 @@ function App() {
     })
   }
 
+const saveTodos = (newTodos) => {
+  const stgringifiedTodos = JSON.stringify(newTodos);
+  localStorage.setItem('TODOS_V1', stgringifiedTodos);
+  setTodos(newTodos);
+};
+
   const completeTodo = (text) => {
     const todoIndex = todos.findIndex(todo => todo.text === text);
 
     const newTodos = [...todos];
     newTodos[todoIndex].completed = true;
-    // formaas de conocer el índice del todo completado
-    // --------------FORMA A
-    //todos[todoIndex].completed = true
-
-    // --------------FORMA B
-    // todos[todoIndex] = {
-    //   text: todos[todoIndex].text,
-    //   completed: true
-    // };
 
     setTodos(newTodos);
   }
@@ -53,7 +61,7 @@ function App() {
     //La función splice quita elementos desde un posición (arg1) la
     //cantidad que necesitemos (arg2)
     newTodos.splice(todoIndex, 1);
-    setTodos(newTodos);
+    saveTodos(newTodos);
   }
 
   return (
