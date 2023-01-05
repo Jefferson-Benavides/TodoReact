@@ -7,74 +7,86 @@ import { AppUI } from './AppUI';
 //   { text: 'Llorar con la llorona', completed: true }
 // ]
 
-function App() {
-  const localStorageTodos = localStorage.getItem('TODOS_V1');
+function useLocalStorage(itemName, initialValue) {
 
-  let parsedTodos;
+  const localStorageItem = localStorage.getItem(itemName);
+  let parsedItem;
 
-  if (!localStorageTodos) {
-    localStorage.setItem('TODOS_V1', JSON.stringify([]));
-    parsedTodos = []
+
+  if (!localStorageItem) {
+    localStorage.setItem(itemName, JSON.stringify(initialValue));
+    parsedItem = initialValue
 
   } else {
-    parsedTodos = JSON.parse(localStorageTodos);
+    parsedItem = JSON.parse(localStorageItem);
   }
 
-  const [todos, setTodos] = React.useState(parsedTodos)
+  const [item, setItem] = React.useState(parsedItem);
 
-  const [searchValue, setSearchValue] = React.useState('');
+  const saveItem = (newItem) => {
+    const stgringifiedItem = JSON.stringify(newItem);
+    localStorage.setItem(itemName, stgringifiedItem);
+    setItem(newItem);
+  };
 
-  const completedTodos = todos.filter(todo => !!todo.completed).length;
-  const totalTodos = todos.length;
-
-  let searchedTodos = [];
-
-  if (!searchValue.length >= 1) {
-
-    searchedTodos = todos;
-  } else {
-    searchedTodos = todos.filter(todo => {
-      const todoText = todo.text.toLowerCase();
-      const searchText = searchValue.toLowerCase();
-      return todoText.includes(searchText);
-    })
-  }
-
-const saveTodos = (newTodos) => {
-  const stgringifiedTodos = JSON.stringify(newTodos);
-  localStorage.setItem('TODOS_V1', stgringifiedTodos);
-  setTodos(newTodos);
-};
-
-  const completeTodo = (text) => {
-    const todoIndex = todos.findIndex(todo => todo.text === text);
-
-    const newTodos = [...todos];
-    newTodos[todoIndex].completed = true;
-
-    setTodos(newTodos);
-  }
-  const deleteTodo = (text) => {
-    const todoIndex = todos.findIndex(todo => todo.text === text);
-
-    const newTodos = [...todos];
-    //La función splice quita elementos desde un posición (arg1) la
-    //cantidad que necesitemos (arg2)
-    newTodos.splice(todoIndex, 1);
-    saveTodos(newTodos);
-  }
-
-  return (
-    <AppUI
-      totalTodos={totalTodos}
-      completedTodos={completedTodos}
-      searchValue={searchValue}
-      setSearchValue={setSearchValue}
-      searchedTodos={searchedTodos}
-      completeTodo={completeTodo}
-      deleteTodo={deleteTodo}
-    />
-  );
+  return [
+    item,
+    saveItem
+  ]
 }
 
-export default App;
+  function App() {
+    const [todos, saveTodos] = useLocalStorage('TODOS_V1', []);
+    const [patito, savePatito] = useLocalStorage('PATITO', 'Fernando');
+
+    const [searchValue, setSearchValue] = React.useState('');
+
+    const completedTodos = todos.filter(todo => !!todo.completed).length;
+    const totalTodos = todos.length;
+
+    let searchedTodos = [];
+
+    if (!searchValue.length >= 1) {
+
+      searchedTodos = todos;
+    } else {
+      searchedTodos = todos.filter(todo => {
+        const todoText = todo.text.toLowerCase();
+        const searchText = searchValue.toLowerCase();
+        return todoText.includes(searchText);
+      })
+    }
+
+    const completeTodo = (text) => {
+      const todoIndex = todos.findIndex(todo => todo.text === text);
+
+      const newTodos = [...todos];
+      newTodos[todoIndex].completed = true;
+
+      saveTodos(newTodos);
+    }
+    const deleteTodo = (text) => {
+      const todoIndex = todos.findIndex(todo => todo.text === text);
+
+      const newTodos = [...todos];
+      //La función splice quita elementos desde un posición (arg1) la
+      //cantidad que necesitemos (arg2)
+      newTodos.splice(todoIndex, 1);
+      saveTodos(newTodos);
+    }
+
+    return [
+      <p> {patito} </p>,
+      <AppUI
+        totalTodos={totalTodos}
+        completedTodos={completedTodos}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+        searchedTodos={searchedTodos}
+        completeTodo={completeTodo}
+        deleteTodo={deleteTodo}
+      />]
+    ;
+  }
+
+  export default App;
