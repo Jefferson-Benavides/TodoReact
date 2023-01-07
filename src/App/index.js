@@ -73,7 +73,7 @@ function App() {
     console.log('use effect')
   }, [totalTodos]);
 
-  // console.log('Render (después de use effect)');
+  console.log('Render (después de use effect)');
   return (
     <AppUI
       totalTodos={totalTodos}
