@@ -5,6 +5,7 @@ import { TodoCounter } from '../TodoCounter';
 import TodoItem from '../TodoItem';
 import { TodoList } from '../TodoList';
 import { TodoSearch } from '../TodoSearch';
+import { Modal } from '../Modal';
 import '../CreateTodoButton/CreateTodoButton.css';
 import '../TodoList/TodoList.css';
 
@@ -14,7 +15,10 @@ const AppUI = () => {
         loading,
         searchedTodos,
         completeTodo,
-        deleteTodo } = React.useContext(TodoContext);
+        deleteTodo,
+        openModal,
+        setOpenModal
+    } = React.useContext(TodoContext);
     return (
         //etiqueta React.Fragment que equivale a un div
         <React.Fragment>
@@ -36,7 +40,14 @@ const AppUI = () => {
                     />
                 ))}
             </TodoList>
-            <CreateTodoButton />
+            {!!openModal && (
+                <Modal>
+                    <p>{searchedTodos[0]?.text}</p>
+                </Modal>
+            )}
+            <CreateTodoButton 
+            setOpenModal={setOpenModal}
+            />
         </React.Fragment>
     );
 };
