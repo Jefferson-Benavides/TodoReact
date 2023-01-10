@@ -6,9 +6,12 @@ import TodoItem from '../TodoItem';
 import { TodoList } from '../TodoList';
 import { TodoSearch } from '../TodoSearch';
 import { Modal } from '../Modal';
+import { TodoForm } from '../TodoForm';
+import { TodosError } from '../TodosError';
+import { TodosLoading } from '../TodosLoading';
+import { EmptyTodos } from '../EmptyTodos';
 import '../CreateTodoButton/CreateTodoButton.css';
 import '../TodoList/TodoList.css';
-import { TodoForm } from '../TodoForm';
 
 const AppUI = () => {
     const {
@@ -28,9 +31,9 @@ const AppUI = () => {
             <TodoSearch
             />
             <TodoList>
-                {error && <p>Hubo un error</p>}
-                {loading && <p>Estamos cargando, no desesperes</p>}
-                {(!loading && !searchedTodos.length) && <p>Crea tu primer ToDo</p>}
+                {error && <TodosError/>}
+                {loading && <TodosLoading/>}
+                {(!loading && !searchedTodos.length) && <EmptyTodos/>}
                 {searchedTodos.map(todo => (
                     <TodoItem
                         key={todo.text}
