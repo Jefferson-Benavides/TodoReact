@@ -4,10 +4,10 @@ import { TodoIcon } from './';
 const DeleteIcon = ({ onDelete }) => {
     return (
         <TodoIcon
-            type='delete'
+            type="delete"
             onClick={onDelete}
         />
-    );
+        );
 };
 
-export {DeleteIcon};
+export { DeleteIcon };

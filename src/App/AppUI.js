@@ -10,8 +10,8 @@ import { TodoForm } from '../TodoForm';
 import { TodosError } from '../TodosError';
 import { TodosLoading } from '../TodosLoading';
 import { EmptyTodos } from '../EmptyTodos';
-import '../CreateTodoButton/CreateTodoButton.css';
-import '../TodoList/TodoList.css';
+// import '../CreateTodoButton/CreateTodoButton.css';
+// import '../TodoList/TodoList.css';
 
 const AppUI = () => {
     const {
@@ -31,9 +31,9 @@ const AppUI = () => {
             <TodoSearch
             />
             <TodoList>
-                {error && <TodosError/>}
-                {loading && <TodosLoading/>}
-                {(!loading && !searchedTodos.length) && <EmptyTodos/>}
+                {error && <TodosError />}
+                {loading && <TodosLoading />}
+                {(!loading && !searchedTodos.length) && <EmptyTodos />}
                 {searchedTodos.map(todo => (
                     <TodoItem
                         key={todo.text}
@@ -46,8 +46,7 @@ const AppUI = () => {
             </TodoList>
             {!!openModal && (
                 <Modal>
-                    <TodoForm/>
-
+                    <TodoForm />
                 </Modal>
             )}
             <CreateTodoButton 
