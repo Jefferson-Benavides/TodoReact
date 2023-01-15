@@ -2,6 +2,7 @@ import React from 'react';
 import './TodosLoading.css'
 
 const TodosLoading = () => {
+    const replace = History.replaceState()
     return (
         <div className="LoadingTodo-container">
             <span className="LoadingTodo-completeIcon"></span>
